@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>MidenDelta: Democratizing the financial industry</title>
+  <meta name="description" content="Hedge fund arbitrage strategies as subscription bots you deploy on your own account. Bot 01: a delta-neutral ETH cash and carry on Hyperliquid. 20% off for early sign-ups."  />
+  <meta name="theme-color" content="#000000" />
+  <meta property="og:title" content="MidenDelta: Democratizing the financial industry" />
+  <meta property="og:description" content="Hedge fund arbitrage strategies as subscription bots. Deploy them on your own account and keep full control. 20% off for early sign-ups." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-50 -50 100 100'%3E%3Ccircle r='44' fill='none' stroke='%23a0a0a0' stroke-width='6'/%3E%3Cpath d='M0,-44 L38.105,22 L-38.105,22 Z' fill='none' stroke='%23a0a0a0' stroke-width='7' stroke-linejoin='miter'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="assets/css/fonts.css" />
+  <link rel="stylesheet" href="assets/css/site.css" />
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "./assets/vendor/three.module.min.js",
+      "lenis": "./assets/vendor/lenis.mjs"
+    }
+  }
+  </script>
+</head>
+<body>
+<main id="main">
+  <section class="story" id="story" aria-label="How the bot works">
+    <div class="story-stage">
+      <div class="stage-fallback" aria-hidden="true" data-logo></div>
+      <canvas id="scene" aria-hidden="true"></canvas>
+      <div class="stage-vignette" aria-hidden="true"></div>
+
+      <div class="steps">
+        <div class="step step-hero" data-in="-1" data-out="0.45">
+          <h1>Democratizing the financial industry.</h1>
+          <p class="hero-claim">Hedge fund arbitrage strategies as subscription bots. Deploy them on your own account and keep full control.</p>
+          <div class="hero-actions">
+            <button type="button" class="btn btn-primary" data-notify>Get 20% off at launch</button>
+            <a class="btn btn-ghost" href="#how">How it works</a>
+          </div>
+        </div>
+
+        <div class="step" data-in="0.75" data-out="1.45">
+          <span class="eyebrow"><b>01</b>Your account</span>
+          <h2>Funds stay in your Hyperliquid account.</h2>
+          <p>The bot connects with an API wallet. It can place orders. It cannot withdraw.</p>
+        </div>
+
+        <div class="step" data-in="2.1" data-out="2.95">
+          <span class="eyebrow"><b>02</b>Long spot</span>
+          <h2>The bot buys spot ETH.</h2>
+          <p>75% of your capital goes into spot ETH. Exposure: <span class="mono">Δ +1</span>.</p>
+        </div>
+
+        <div class="step" data-in="3.1" data-out="3.95">
+          <span class="eyebrow"><b>03</b>Short perp</span>
+          <h2>Then it shorts the same amount of ETH-PERP.</h2>
+          <p>The other 25% is margin for the short, at most 3×. Exposure: <span class="mono">Δ −1</span>. Net: <span class="mono">0</span>.</p>
+        </div>
+
+        <div class="step" data-in="4.1" data-out="5.15">
+          <span class="eyebrow"><b>04</b>Delta 0</span>
+          <h2>ETH moves. Your position doesn't.</h2>
+          <p>The spot leg gains what the short loses, and the other way round.</p>
+          <dl class="ticker" aria-live="off">
+            <div><dt>ETH price</dt><dd id="tk-price">$2,500</dd></div>
+            <div><dt>Net delta</dt><dd class="mono">0.00</dd></div>
+            <div><dt>Spot leg</dt><dd id="tk-spot">+$0</dd></div>
+            <div><dt>Perp leg</dt><dd id="tk-perp">−$0</dd></div>
+          </dl>
+        </div>
+
+        <div class="step" data-in="5.25" data-out="6.1">
+          <span class="eyebrow"><b>05</b>Collect the carry</span>
+          <h2>Get paid to hold the hedge.</h2>
+          <p>Perpetual futures pay a <strong>funding rate</strong>. When the market leans long, longs pay shorts. Your short collects that payment every hour, straight into your account. Funding varies and can turn negative.</p>
+          <div class="chips"><span class="chip long">Funding → your account</span><span class="chip">Paid hourly</span></div>
+        </div>
+
+        <div class="step" data-in="6.2" data-out="7.05">
+          <span class="eyebrow"><b>06</b>Automated</span>
+          <h2>The bot keeps it at zero.</h2>
+          <p>It watches price, delta and margin around the clock. When ETH moves and the hedge drifts more than 2%, it adjusts the short with limit orders until delta is back at zero.</p>
+          <p>When a rally eats into the short's margin, it sells part of the spot gain and moves it over. No manual steps.</p>
+          <div class="chips"><span class="chip">24/7</span><span class="chip">±2% band</span><span class="chip">Maker orders</span></div>
+        </div>
+      </div>
+
+      <div class="spec" aria-label="Specifications">
+        <figure class="spec-chart" data-in="7.45" data-out="99">
+          <canvas id="chart" role="img" aria-label="ETH price candles from May 2023 to September 2026 with the simulated value of a delta-neutral position, which rises steadily while ETH swings"></canvas>
+          <figcaption>ETH/USD 3-day candles, Hyperliquid, May 2023 – Sep 2026. Position value simulated at 3×, before fees. Not a track record.</figcaption>
+        </figure>
+        <div class="spec-col">
+          <div class="spec-head" data-in="7.75" data-out="99" data-blur>
+            <span class="eyebrow"><b>07</b>Specifications</span>
+            <h2>Bot 01, in numbers.</h2>
+          </div>
+          <ol class="spec-list">
+            <li data-in="8.2" data-out="99" data-out-m="9.15" data-blur><span class="n">01</span><h3>Capital efficiency <span class="mono">0.75×</span></h3><p>At the 3× short cap, 75% of capital sits in spot and earns funding: <span class="mono">1 ÷ (1 + 1/3)</span>. The other 25% is margin for the short.</p></li>
+            <li data-in="9.15" data-out="99" data-out-m="10.1" data-blur><span class="n">02</span><h3>Post-only limit orders</h3><p>Entries and rebalances go out as add-liquidity-only orders, so you pay maker fees: 0.015% on perps and 0.040% on spot instead of 0.045% and 0.070% (Hyperliquid base tier).</p></li>
+            <li data-in="10.1" data-out="99" data-out-m="11.05" data-blur><span class="n">03</span><h3>Event-driven rebalancing</h3><p>No fixed schedule. The bot trades only when delta drifts outside a ±2% band or margin drops below its floor, so it doesn't pay fees to stand still.</p></li>
+            <li data-in="11.05" data-out="99" data-blur><span class="n">04</span><h3>Liquidation distance <span class="mono">~31%</span></h3><p>At 3×, ETH has to rise about 31% before the short is liquidated. The bot moves spot gains into margin long before that.</p></li>
+          </ol>
+        </div>
+      </div>
+
+      <nav class="rail" id="rail" aria-label="Story chapters"></nav>
+      <div class="scroll-cue" id="scroll-cue" aria-hidden="true"><i></i>Scroll to see how it works</div>
+      <div class="progress-line" id="progress-line" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <section class="section" id="how">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Setup</span>
+        <h2>Three steps, then it runs.</h2>
+      </div>
+      <dl class="terms three reveal" data-delay="1">
+        <div class="term"><dt>01 · Subscribe</dt><dd>Licence key<small>Download the bot. Cancel anytime; it winds down without leaving you half-hedged.</small></dd></div>
+        <div class="term"><dt>02 · Install</dt><dd>Your machine<small>Desktop app, Docker, or a small VPS if you want it running 24/7.</small></dd></div>
+        <div class="term"><dt>03 · Connect</dt><dd>API wallet<small>Create a trade-only key on Hyperliquid, set size and leverage, start.</small></dd></div>
+        <div class="term"><dt>You need</dt><dd>USDC on Hyperliquid<small>Hyperliquid's terms and regional restrictions apply to your account.</small></dd></div>
+        <div class="term"><dt>Custody</dt><dd>None<small>We never receive your funds or your keys, and we never trade for you.</small></dd></div>
+        <div class="term"><dt>Price</dt><dd>Flat monthly fee<small>No performance fee, no cut of your trades. <a href="pricing.html">Plans</a></small></dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Roadmap</span>
+        <h2>What ships next.</h2>
+      </div>
+      <div class="roadmap">
+        <article class="road reveal" data-delay="1"><span class="status live">In development</span><span class="idx">BOT 01</span><h3>ETH cash &amp; carry</h3><p>Spot ETH plus an equal ETH-PERP short. Collects funding at delta 0.</p></article>
+        <article class="road reveal locked" data-delay="2"><span class="status">In research</span><span class="idx">BOT 02</span><h3>Funding rotator</h3><p>Scans a basket of coins and moves the carry to the highest funding, net of switching costs.</p></article>
+        <article class="road reveal locked" data-delay="3"><span class="status">Planned</span><span class="idx">MARGIN</span><h3>Portfolio margin</h3><p>Spot as collateral for the short, so close to 100% of capital earns funding.</p></article>
+        <article class="road reveal locked" data-delay="3"><span class="status">Planned</span><span class="idx">VENUES</span><h3>Multi-venue</h3><p>The same carry across venues, to spread platform risk.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="cta-band reveal">
+        <div>
+          <span class="eyebrow">Launching soon</span>
+          <h2>20% off for early sign-ups.</h2>
+          <p>Leave your email and we'll send your 20% code when Bot 01 launches.</p>
+          <div class="actions">
+            <button type="button" class="btn btn-primary" data-notify>Get 20% off</button>
+            <a class="btn btn-ghost" href="pricing.html">See plans</a>
+          </div>
+        </div>
+        <div class="cta-mark" data-logo role="img" aria-label="MidenDelta mark: a delta inside a circle"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script type="module" src="assets/js/home.js"></script>
+</body>
+</html>
